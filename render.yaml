@@ -1,0 +1,26 @@
+services:
+  # Backend — Flask API served via gunicorn
+  - type: web
+    name: fakejob-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: "pip install -r ../requirements.txt"
+    startCommand: "gunicorn -w 2 -b 0.0.0.0:$PORT app:app"
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false          # set manually in Render dashboard — don't commit real keys
+      - key: FRONTEND_ORIGIN
+        value: "https://fakejob-frontend.onrender.com"
+    disk:
+      name: fakejob-data
+      mountPath: /opt/render/project/src/backend/data
+      sizeGB: 1              # persists SQLite DB + uploaded files across deploys
+
+  # Frontend — static site
+  - type: web
+    name: fakejob-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: ""
+    staticPublishPath: .
