@@ -4,7 +4,7 @@ A multi-modal forensic framework for detecting fraudulent job offers, with a foc
 
 ---
 
-## Quick Start
+## Quick Start 
 
 ### 1. Install dependencies
 ```bash
